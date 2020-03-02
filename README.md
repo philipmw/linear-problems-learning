@@ -25,3 +25,7 @@ Feel free to collaborate with me, either through GitHub pull requests or by emai
 In R:
 
     install.packages("lpSolve")
+
+# References
+
+* [lpSolve documentation](https://cran.r-project.org/web/packages/lpSolve/lpSolve.pdf)
