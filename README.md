@@ -20,11 +20,11 @@ Feel free to collaborate with me, either through GitHub pull requests or by emai
    Now each seat of a boat has an affinity for a role (such as 1-seat having an affinity for the
    bow role), and so the solver tries to assign to 1-seat a rower who most has an affinity for the
    bow role.  This problem also adds a "launch seat", which has no affinity.
+3. `any quantity of rowers.R`: similar to #2, except we generate as many launch seats as needed to
+   make a square matrix, as opposed to just one.
 
 Potential next goals:
 
-* Supporting exactly as many seats as rowers, since the solver requires a square matrix.
-  This means assigning excess rowers to the launch or to an erg.
 * Ensuring that boats are full.
   Do not assign three seats of a quad plus a single, but instead assign a full quad.
 
