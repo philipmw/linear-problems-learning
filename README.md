@@ -2,14 +2,20 @@
 
 ## What and why
 
-This is my playground for exploring how to express problems such that they be solved by a linear solver.
-I don't know a lot about this right now, but there is a real-world problem that I want to solve, and I believe
-it is solvable using a linear solver.
+This is my playground for exploring how to express problems such that they be solved by a
+[linear solver](https://en.wikipedia.org/wiki/Linear_programming).
 
-My goal with this is to learn by challenging myself with progressively difficult linear problems,
-and documenting it here for myself and maybe other LP neophytes.
+The real-world problem that motivates me is assigning rowers to rowboats.
+This assignment problem needs to take into consideration available boats, rower skill,
+and rower preferences.
+It's normally solved by a coach, but I believe it can be efficiently solved by a computer.
 
-Feel free to collaborate with me, either through GitHub pull requests or by email.
+My goal with this project is to learn by challenging myself with progressively difficult
+linear problems, and documenting it here for myself and maybe other LP neophytes.
+
+Please collaborate with me, either through GitHub pull requests or by email.
+I'd love collaboration both in improving my understanding of linear problems and
+the R code quality.
 
 ## Progression
 
