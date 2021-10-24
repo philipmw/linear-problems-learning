@@ -27,21 +27,17 @@ the R code quality.
    affinity for a role (such as 1-seat having an affinity for the bow role), and so the solver
    tries to assign to 1-seat a rower who most has an affinity for the bow role.
    This problem also adds a "launch seat" for extra rowers, which has no affinity.
+1. `sponges midboat.R`: seats define how important they are to be filled by a rower versus a sponge.
 1. `any quantity of rowers.R`: generate as many launch seats as needed to accommodate all rowers.
 1. `any quantity of boats.R`: generate as many "sponges" (fake rowers) to accommodate all available
    boat seats.
 1. `frostbite.R`: an assignment problem for Greenlake Frostbite 2021.
 
+For each script, see the comment block at the top for more info.
+
 The `frostbite` script is the most comprehensive. It supports real rowers and real boats.
 It respects sweep/scull preferences, port/starboard preferences, and stroke/bow preferences.
 It fills extra seats with sponges, and it puts overflow rowers on the launch.
-
-The limitation of `frostbite` (and all other scripts) is that sometimes the algorithm distributes
-rowers among the boats in an unrealistic way.
-For example, if there is an 8+ and a double, with two sponges, the algorithm has no problem
-putting one sponge in the 8+ and one in the double.
-In reality, we'd want to put both sponges in the 8+.
-I don't yet know how to teach the computer a more intelligent way of distributing sponges.
 
 ## Environment known to work
 

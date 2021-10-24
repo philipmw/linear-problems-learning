@@ -6,6 +6,13 @@ library(lpSolve)
 #   during regular practices as similar to Frostbite as possible.
 #   We also want to accommodate drop-in rowers who aren't racing.
 #
+# APPROACH:
+#   While I cannot express specific lineups (rower/boat/seat), I express
+#   affinity for a seat type for each rower.
+#   This is pretty accurate, though it results in mixing of rowers in same
+#   boat categories. For example, if we have two doubles racing, their
+#   strokes and bows may be mismatched.
+#
 # OUTPUT:
 #   solution: A matrix assigning each rower to a boat and seat that maximizes preference.
 #
@@ -129,6 +136,9 @@ rowers = data.frame(
     1, 5, 5)
 )
 
+# Boat seat weights range 0--5.
+# Seats that shouldn't be sponged reach 5 in at least one category,
+# while spongeable seats do not have 5 in any category.
 boats = list(
   chai=data.frame(
     seat2=c(
@@ -219,11 +229,11 @@ boats = list(
     seat4=c(
         0, 0,
         0, 0, 0,
-        0, 5, 1),
+        0, 4, 1), # spongeable
     seat3=c(
         0, 0,
         0, 0, 0,
-        0, 1, 5),
+        0, 1, 4), # spongeable
     seat2=c(
         0, 0,
         0, 0, 0,
@@ -258,11 +268,11 @@ boats = list(
     seat4=c(
         0, 0,
         0, 0, 0,
-        0, 5, 1),
+        0, 4, 1), # spongeable
     seat3=c(
         0, 0,
         0, 0, 0,
-        0, 1, 5),
+        0, 1, 4), # spongeable
     seat2=c(
         0, 0,
         0, 0, 0,
