@@ -45,7 +45,7 @@ qtyBoatSeats = length(do.call(c, boats))
 launchSeatsNeeded = max(0, length(rowers)-qtyBoatSeats)
 
 launchSeatList = list()
-launchSeatNames = sapply(1:launchSeatsNeeded, function(x) paste("seat", x, sep=""))
+launchSeatNames = sapply(seq(1, launchSeatsNeeded, length.out=launchSeatsNeeded), function(x) paste("seat", x, sep=""))
 for(launchSeatName in launchSeatNames)
   launchSeatList[[launchSeatName]] <- launchAffinity
 boats$launch = data.frame(launchSeatList)

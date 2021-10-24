@@ -26,7 +26,7 @@ affinityRaw = c(
   c(5, 5, 5, 5)
 )
 
-affinityMatrix = matrix(affinityRaw, nrow=4, byrow=TRUE)
+affinityMatrix = matrix(affinityRaw, nrow=length(rowers), byrow=TRUE)
 
 solution = lp.assign(affinityMatrix, direction="max")$solution
 
