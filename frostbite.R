@@ -18,17 +18,10 @@ library(lpSolve)
 #
 #######################
 
-affinities = c(
-    "8+ cox",
-    "4(x)+ cox",
-
-    "scull stroke",
-    "scull engine",
-    "scull bow",
-
-    "sweep stroke",
-    "sweep port",
-    "sweep starboard")
+# Affinities are given in three rows for readability:
+#   [8+ cox]  [4(x)+ cox]
+#   [scull stroke]  [scull engine]  [scull bow]
+#   [sweep stroke]  [sweep port]  [sweep starboard]
 
 rowers = data.frame(
               # --affinities-->
@@ -284,71 +277,94 @@ boats = list(
   )
 )
 
+############ end of customer-serviceable parts ##############
+
+# This function creates a "launch boat", with a variable number of seats,
+# to accommodate rowers that don't fit into existing real boats.
+# It returns this new boat.
+createLaunchBoat = function(rowers, boats) {
+  launchAffinity = c(
+      0, 0,
+      0, 0, 0,
+      0, 0, 0)
+
+  qtyBoatSeats = length(do.call(c, boats))
+  launchSeatsNeeded = max(0, length(rowers)-qtyBoatSeats)
+
+  launchSeatList = list()
+  launchSeatNames = sapply(
+    seq(1, launchSeatsNeeded, length.out=launchSeatsNeeded),
+    function(x) paste("seat", x, sep=""))
+  for(launchSeatName in launchSeatNames)
+    launchSeatList[[launchSeatName]] <- launchAffinity
+  data.frame(launchSeatList)
+}
+
+# This function creates a variable number of "sponges", to fill empty seats in boats.
+# Sponges act just like rowers, but with an affinity that minimizes the probability
+# of being selected for a seat.
+# It returns the data frame of sponges, which needs to be added to the list of rowers.
+createSponges = function(rowers, boats) {
+  spongeAffinity = c(
+      0, 0,
+      0, 0, 0,
+      0, 0, 0)
+
+  qtyBoatSeats = length(do.call(c, boats))
+  spongesNeeded = max(0, qtyBoatSeats-length(rowers))
+
+  spongesNeeded
+
+  spongeList = list()
+  spongeNames = sapply(
+    seq(1, spongesNeeded, length.out=spongesNeeded),
+    function(x) paste("sponge", x, sep=""))
+  for(spongeName in spongeNames)
+    spongeList[[spongeName]] <- spongeAffinity
+  data.frame(spongeList)
+}
+
+# This function takes equal-sized data frames of rowers and boat seats,
+# computes assignments, and adds row names and column names.
+computeAssignments = function(rowers, boats) {
+  seats = names(do.call(c, boats))
+
+  # Affinities of each rower for each boat and seat.
+  # We have to have a square matrix, so we need exactly as many seats as rowers.
+
+  affinitiesNestedList = lapply(rowers, function(rowerAff) {
+    lapply(do.call(c, boats), function(seatAff) {
+      crossprod(rowerAff, seatAff)[,1]
+    })
+  })
+
+  affinitiesVector = as.vector(unlist(affinitiesNestedList))
+
+  affinitiesMatrix = matrix(affinitiesVector, nrow=length(rowers), byrow=TRUE)
+  rownames(affinitiesMatrix) = names(rowers)
+  colnames(affinitiesMatrix) = seats
+
+  lpOutcome = lp.assign(affinitiesMatrix, direction="max")
+
+  if (lpOutcome$status != 0) {
+    stop("No feasible solution")
+  }
+  solution = lpOutcome$solution
+
+  rownames(solution) = names(rowers)
+  colnames(solution) = seats
+
+  solution
+}
+
 # Augment `boats` with a variable number of launch seats
-
-launchAffinity = c(
-    0, 0,
-    0, 0, 0,
-    0, 0, 0)
-
-qtyBoatSeats = length(do.call(c, boats))
-launchSeatsNeeded = max(0, length(rowers)-qtyBoatSeats)
-
-launchSeatList = list()
-launchSeatNames = sapply(seq(1, launchSeatsNeeded, length.out=launchSeatsNeeded), function(x) paste("seat", x, sep=""))
-for(launchSeatName in launchSeatNames)
-  launchSeatList[[launchSeatName]] <- launchAffinity
-boats$launch = data.frame(launchSeatList)
-
-boats
+boats$launch = createLaunchBoat(rowers, boats)
 
 # Augment `rowers` with a variable number of sponges
+rowers = append(rowers, createSponges(rowers, boats))
 
-spongeAffinity = c(
-    0, 0,
-    0, 0, 0,
-    0, 0, 0)
-
-qtyBoatSeats = length(do.call(c, boats))
-spongesNeeded = max(0, qtyBoatSeats-length(rowers))
-
-spongesNeeded
-
-spongeList = list()
-spongeNames = sapply(seq(1, spongesNeeded, length.out=spongesNeeded), function(x) paste("sponge", x, sep=""))
-for(spongeName in spongeNames)
-  spongeList[[spongeName]] <- spongeAffinity
-rowers = append(rowers, data.frame(spongeList))
-
-rowers
-
-#####
-
-seats = names(do.call(c, boats))
-
-# Affinities of each rower for each boat and seat.
-# We have to have a square matrix, so we need exactly as many seats as rowers.
-
-affinitiesNestedList = lapply(rowers, function(rowerAff) {
-  lapply(do.call(c, boats), function(seatAff) {
-    crossprod(rowerAff, seatAff)[,1]
-  })
-})
-
-affinitiesVector = as.vector(unlist(affinitiesNestedList))
-
-affinitiesMatrix = matrix(affinitiesVector, nrow=length(rowers), byrow=TRUE)
-rownames(affinitiesMatrix) = names(rowers)
-colnames(affinitiesMatrix) = seats
-
-lpOutcome = lp.assign(affinitiesMatrix, direction="max")
-
-if (lpOutcome$status != 0) {
-  stop("No feasible solution")
-}
-solution = lpOutcome$solution
-
-rownames(solution) = names(rowers)
-colnames(solution) = seats
+# Now that we have the same quantity of rowers and seats,
+# we can do the assignments.
+solution = computeAssignments(rowers, boats)
 
 solution

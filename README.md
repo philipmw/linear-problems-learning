@@ -32,12 +32,12 @@ the R code quality.
 1. `any quantity of boats.R`: generate as many "sponges" (fake rowers) to accommodate all available
    boat seats.
 1. `frostbite.R`: an assignment problem for Greenlake Frostbite 2021.
+    This one is the most comprehensive so far. It supports real rowers and real boats,
+    sweep/scull preferences, port/starboard preferences, and stroke/bow preferences.
+    It fills extra seats with sponges, and it puts overflow rowers on a launch.
+    Lastly, it factors logic into separate functions to keep code clean.
 
 For each script, see the comment block at the top for more info.
-
-The `frostbite` script is the most comprehensive. It supports real rowers and real boats.
-It respects sweep/scull preferences, port/starboard preferences, and stroke/bow preferences.
-It fills extra seats with sponges, and it puts overflow rowers on the launch.
 
 ## Environment known to work
 
