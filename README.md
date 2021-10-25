@@ -19,6 +19,10 @@ the R code quality.
 
 ## Progression
 
+For each script, see the comment block at the top for more info.
+
+Problems solved using `lp.assign()`:
+
 1. `simple quad lineup.R`: a super simple assignment problem where four rowers want to row a quad.
    Each rower has an affinity for a specific seat, and we maximize the affinity.
 1. `port vs starboard.R`: one boat, and rowers have an affinity for port vs starboard.
@@ -37,7 +41,12 @@ the R code quality.
     It fills extra seats with sponges, and it puts overflow rowers on a launch.
     Lastly, it factors logic into separate functions to keep code clean.
 
-For each script, see the comment block at the top for more info.
+Here I've reached the limit of `lp.assign()` and reached for `lp()`:
+
+1. `two rowers three seats.R`: a small extension to an assignment problem, adding several constraints.
+    We have two rowers, and we have two boats: a double and a single.
+    One constraint forces some rower into a single.
+    Another forces two rowers into a double, preventing a situation where one of the double's seats is empty.
 
 ## Environment known to work
 
