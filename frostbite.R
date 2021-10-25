@@ -57,10 +57,10 @@ rowers = data.frame(
     1, 1,
     1, 1, 1,
     1, 1, 5),
-  JessicaM=c( # 6-seat of 8+, 3-seat of 4+
+  JessicaM=c( # 6-seat of 8+
     1, 1,
     1, 1, 1,
-    3, 5, 5),
+    3, 5, 1),
   JessicaT=c( # 1-seat and 7-seat of 8+
     1, 1,
     1, 1, 1,
@@ -109,6 +109,10 @@ rowers = data.frame(
     5, 4,
     5, 3, 4,
     1, 1, 1),
+  Shaina=c( # 3-seat of a 4+
+    1, 1,
+    1, 1, 1,
+    1, 1, 5),
   Shannon=c( # bow of double, 3-seat of 8+
     1, 1,
     2, 3, 5,
