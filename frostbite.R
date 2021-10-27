@@ -361,6 +361,30 @@ computeAssignments = function(rowers, boats) {
   solution
 }
 
+assnMatrixToListByRower = function(mx) {
+  assn_by_rower = c()
+  for (r in 1:nrow(mx)) {
+    for (c in 1:ncol(mx)) {
+      if (mx[r, c] > 0) { # mx values are `numeric`, not `integer`
+        assn_by_rower = c(assn_by_rower, sprintf("%s in %s", rownames(mx)[r], colnames(mx)[c]))
+      }
+    }
+  }
+  assn_by_rower
+}
+
+assnMatrixToListBySeat = function(mx) {
+  assn_by_seat = c()
+  for (c in 1:ncol(mx)) {
+    for (r in 1:nrow(mx)) {
+      if (mx[r, c] > 0) { # mx values are `numeric`, not `integer`
+        assn_by_seat = c(assn_by_seat, sprintf("%s: %s", colnames(mx)[c], rownames(mx)[r]))
+      }
+    }
+  }
+  assn_by_seat
+}
+
 # Augment `boats` with a variable number of launch seats
 boats$launch = createLaunchBoat(rowers, boats)
 
@@ -369,6 +393,10 @@ rowers = append(rowers, createSponges(rowers, boats))
 
 # Now that we have the same quantity of rowers and seats,
 # we can do the assignments.
-solution = computeAssignments(rowers, boats)
+solution_mx = computeAssignments(rowers, boats)
 
-solution
+# print assignments sorted by rower
+assnMatrixToListByRower(solution_mx)
+
+# print assignments sorted by seat
+assnMatrixToListBySeat(solution_mx)
