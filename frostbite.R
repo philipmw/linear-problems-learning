@@ -85,10 +85,6 @@ rowers = data.frame(
     1, 1,
     0, 0, 0,
     1, 5, 0),
-  Miranda=c( # 4-seat of 8+
-    1, 1,
-    1, 1, 1,
-    3, 5, 2),
   Natalia=c( # 2-seat of quad, 2-seat of 8+
     1, 1,
     3, 5, 2,
@@ -109,10 +105,10 @@ rowers = data.frame(
     5, 4,
     5, 3, 4,
     1, 1, 1),
-  Shaina=c( # 3-seat of a 4+
+  Shaina=c( # 3-seat of a 4+, 4-seat of 8+
     1, 1,
     1, 1, 1,
-    1, 1, 5),
+    3, 5, 5),
   Shannon=c( # bow of double, 3-seat of 8+
     1, 1,
     2, 3, 5,
